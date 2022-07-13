@@ -20,7 +20,7 @@ function App() {
                           <Route path = "/orders" component = {ListOrderComponent}></Route>
                           <Route path = "/add-orders/:id" component = {CreateOrderComponent}></Route>
                           <Route path = "/view-orders/:id" component = {ViewOrderComponent}></Route>
-                          {/* <Route path = "/update-employee/:id" component = {UpdateOrderComponent}></Route> */}
+                          { <Route path = "/update-employee/:id" component = {UpdateOrderComponent}></Route> }
                     </Switch>
                 </div>
               <FooterComponent />

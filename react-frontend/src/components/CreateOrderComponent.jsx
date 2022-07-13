@@ -8,13 +8,13 @@ class CreateOrderComponent extends Component {
         this.state = {
             // step 2
             id: this.props.match.params.id,
-            firstName: '',
-            lastName: '',
-            emailId: ''
+            tickerName: '',
+            tickerCode: '',
+            price: ''
         }
-        this.changeFirstNameHandler = this.changeFirstNameHandler.bind(this);
-        this.changeLastNameHandler = this.changeLastNameHandler.bind(this);
-        this.saveOrUpdateEmployee = this.saveOrUpdateEmployee.bind(this);
+        this.changeTickerNameHandler = this.changeTickerNameHandler.bind(this);
+        this.changeTickerCodeHandler = this.changeTickerCodeHandler.bind(this);
+        this.saveOrUpdateOrders = this.saveOrUpdateOrders.bind(this);
     }
 
     // step 3
@@ -22,45 +22,65 @@ class CreateOrderComponent extends Component {
 
         // step 4
         if(this.state.id === '_add'){
+            console.log('state : _add');
             return
         }else{
-            OrderService.getOrderById(this.state.id).then( (res) =>{
-                let employee = res.data;
-                this.setState({
-                    firstName: employee.firstName,
-                    lastName: employee.lastName,
-                    emailId : employee.emailId
-                });
-            });
+            OrderService.getOrderById(this.state.id)
+            .then( 
+                (res) =>{
+                    let Orders = res.data;
+                    this.setState({
+                        tickerName: Orders.tickerName,
+                        tickerCode: Orders.tickerCode,
+                        price : Orders.price
+                    });                    
+                 });
         }        
     }
-    saveOrUpdateEmployee = (e) => {
-        e.preventDefault();
-        let employee = {firstName: this.state.firstName, lastName: this.state.lastName, emailId: this.state.emailId};
-        console.log('employee => ' + JSON.stringify(employee));
+    saveOrUpdateOrders = (e) => {
+        e.preventDefault();  // prevent the default events. e.g button submission by default.
+        let Orders = {  
+            tickerName: this.state.tickerName, 
+            tickerCode: this.state.tickerCode, 
+            price: this.state.price
+        };
+
+        console.log('orders => ' + JSON.stringify(Orders));
 
         // step 5
         if(this.state.id === '_add'){
-            OrderService.createOrder(employee).then(res =>{
-                this.props.history.push('/orders');
-            });
+            console.log('Order creation invoked.');
+            OrderService.createOrder(Orders)
+                .then(
+                    res =>{
+                        this.props.history.push('/orders');
+                    console.log('Order creation completed.');    
+                });
         }else{
-            OrderService.updateOrder(employee, this.state.id).then( res => {
-                this.props.history.push('/orders');
-            });
+            console.log('Order update invoked.');
+
+            OrderService.updateOrder(Orders, this.state.id)
+            .then( 
+                res => {
+                       this.props.history.push('/orders');
+                });
+            console.log('Order update Completed.');
         }
     }
     
-    changeFirstNameHandler= (event) => {
-        this.setState({firstName: event.target.value});
+    changeTickerNameHandler= (event) => {
+        console.log('Event changeTickerNameHandler called.');
+        this.setState({tickerName: event.target.value});
     }
 
-    changeLastNameHandler= (event) => {
-        this.setState({lastName: event.target.value});
+    changeTickerCodeHandler= (event) => {
+        console.log('Event changeTickerCodeHandler called.');
+        this.setState({tickerCode: event.target.value});
     }
 
-    changeEmailHandler= (event) => {
-        this.setState({emailId: event.target.value});
+    changePriceHandler= (event) => {
+        console.log('Event changePriceHandler called.');
+        this.setState({price: event.target.value});
     }
 
     cancel(){
@@ -74,6 +94,8 @@ class CreateOrderComponent extends Component {
             return <h3 className="text-center">Update Orders</h3>
         }
     }
+
+
     render() {
         return (
             <div>
@@ -89,20 +111,20 @@ class CreateOrderComponent extends Component {
                                         <div className = "form-group">
                                             <label> Trading name : </label>
                                             <input placeholder="Trading name" name="firstName" className="form-control"
-                                                value={this.state.firstName} onChange={this.changeFirstNameHandler}/>
+                                                value={this.state.tickerName} onChange={this.changeTickerNameHandler}/>
                                         </div>
                                         <div className = "form-group">
                                             <label> Trading Code : </label>
                                             <input placeholder="Trading Code" name="lastName" className="form-control"
-                                                value={this.state.lastName} onChange={this.changeLastNameHandler}/>
+                                                value={this.state.tickerCode} onChange={this.changeTickerCodeHandler}/>
                                         </div>
                                         <div className = "form-group">
                                             <label> sale price : </label>
                                             <input placeholder="sale price" name="emailId" className="form-control"
-                                                value={this.state.emailId} onChange={this.changeEmailHandler}/>
+                                                value={this.state.price} onChange={this.changePriceHandler}/>
                                         </div>
 
-                                        <button className="btn btn-success" onClick={this.saveOrUpdateEmployee}>Save</button>
+                                        <button className="btn btn-success" onClick={this.saveOrUpdateOrders}>Save</button>
                                         <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancel</button>
                                     </form>
                                 </div>

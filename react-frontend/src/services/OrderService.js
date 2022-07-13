@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const ORDER_API_BASE_URL = "http://localhost:8080/api/v1/employees";
+const ORDER_API_BASE_URL = "http://localhost:8080/api/v1/orders";
 
 class OrderService {
 
@@ -8,20 +8,20 @@ class OrderService {
         return axios.get(ORDER_API_BASE_URL);
     }
 
-    createOrder(employee){
-        return axios.post(ORDER_API_BASE_URL, employee);
+    createOrder(orders){
+        return axios.post(ORDER_API_BASE_URL, orders);
     }
 
-    getOrderById(employeeId){
-        return axios.get(ORDER_API_BASE_URL + '/' + employeeId);
+    getOrderById(ordersId){
+        return axios.get(ORDER_API_BASE_URL + '/' + ordersId);
     }
 
-    updateOrder(employee, employeeId){
-        return axios.put(ORDER_API_BASE_URL + '/' + employeeId, employee);
+    updateOrder(orders, ordersId){
+        return axios.put(ORDER_API_BASE_URL + '/' + ordersId, orders);
     }
 
-    deleteOrder(employeeId){
-        return axios.delete(ORDER_API_BASE_URL + '/' + employeeId);
+    deleteOrders(ordersId){
+        return axios.delete(ORDER_API_BASE_URL + '/' + ordersId);
     }
 }
 
