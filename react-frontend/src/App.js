@@ -8,6 +8,7 @@ import FooterComponent from './components/FooterComponent';
 import CreateOrderComponent from './components/CreateOrderComponent';
 import UpdateOrderComponent from './components/UpdateOrderComponent';
 import ViewOrderComponent from './components/ViewOrderComponent';
+import CustomerFeedbackPageComponent from './components/CustomerFeedbackPage';
 
 function App() {
   return (
@@ -20,7 +21,8 @@ function App() {
                           <Route path = "/orders" component = {ListOrderComponent}></Route>
                           <Route path = "/add-orders/:id" component = {CreateOrderComponent}></Route>
                           <Route path = "/view-orders/:id" component = {ViewOrderComponent}></Route>
-                          { <Route path = "/update-employee/:id" component = {UpdateOrderComponent}></Route> }
+                          <Route path = "/update-employee/:id" component = {UpdateOrderComponent}></Route> 
+                          <Route path = "/customer" exact component = {CustomerFeedbackPageComponent}></Route>
                     </Switch>
                 </div>
               <FooterComponent />
